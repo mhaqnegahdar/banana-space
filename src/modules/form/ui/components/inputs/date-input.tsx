@@ -32,7 +32,7 @@ export function DateInput<TFieldValues extends FieldValues = FieldValues>({
           variant="outline"
           className={cn(
             "w-full justify-start text-left font-normal",
-            !field.value && "text-muted-foreground"
+            !field.value && "text-muted-foreground",
           )}
           disabled={disabled}
         >
@@ -49,7 +49,6 @@ export function DateInput<TFieldValues extends FieldValues = FieldValues>({
           mode="single"
           selected={field.value ? new Date(field.value) : undefined}
           onSelect={(date) => field.onChange(date)}
-          initialFocus
         />
       </PopoverContent>
     </Popover>
