@@ -1,5 +1,5 @@
 import React from "react";
-import { auth } from "@/lib/auth"; // path to your Better Auth server instance
+import { auth } from "@/modules/auth/lib/auth"; // path to your Better Auth server instance
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -8,7 +8,6 @@ export default async function layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   const session = await auth.api.getSession({
     headers: await headers(), // you need to pass the headers object.
   });

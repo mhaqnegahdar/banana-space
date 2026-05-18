@@ -114,7 +114,7 @@ export function RHFInput<TFieldValues extends FieldValues = FieldValues>({
                       field={field}
                       placeholder={placeholder}
                       disabled={disabled}
-                      folder={props.folder || "/blog/images"}
+                      folder={props.folder || "/"}
                     />
                   );
                 case "select":

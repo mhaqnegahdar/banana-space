@@ -24,7 +24,7 @@ const authenticator = async (): Promise<{
   publicKey: string;
 }> => {
   try {
-    const response = await fetch("/api/image-auth");
+    const response = await fetch("/api/upload-auth");
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -63,7 +63,7 @@ export function ImageInput({
   field,
   placeholder = "Upload an image",
   disabled = false,
-  folder = "/blog/images",
+  folder = "/",
 }: ImageInputProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -119,7 +119,7 @@ export function ImageInput({
 
       const response = await upload({
         file,
-        fileName: `blog-image-${Date.now()}-${file.name}`,
+        fileName: `${file.name.split(".")[0]}-${crypto.randomUUID()}.${file.name.split(".")[1]}`,
         folder,
 
         publicKey,
@@ -183,13 +183,13 @@ export function ImageInput({
       {/* Preview */}
       {previewUrl ? (
         <div className="relative group">
-          <div className="relative w-full h-48 rounded-lg overflow-hidden border border-dashed border-border">
+          <div className="relative w-full h-auto rounded-lg overflow-hidden border border-dashed border-border">
             <Image
               path={previewUrl.replace(urlEndpoint!, "")}
-              w={846}
-              h={455}
+              w={500}
+              h={500}
               alt="uploaded image"
-              className="mr-2 aspect-video w-full rounded-xl object-cover"
+              className="mr-2 aspect-square w-full rounded-xl object-cover"
             />
 
             <div className="absolute top-2 right-2 z-10">

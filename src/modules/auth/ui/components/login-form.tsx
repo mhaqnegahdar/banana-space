@@ -11,7 +11,7 @@ import { LoginFormData, loginSchema } from "../../schema";
 import { useState } from "react";
 import { RHFormContainer } from "@/modules/form/ui/components/rhf-form-container";
 import { RHFInput } from "@/modules/form/ui/components/rhf-input";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/modules/auth/lib/auth-client";
 import GithubLogo from "@/components/layout/icons/github";
 
 const LoginForm = () => {
@@ -79,8 +79,6 @@ const LoginForm = () => {
           result.error.message || `Failed to log in with ${provider}`,
         );
       }
-
-
     } catch (error) {
       console.error(`${provider} login error:`, error);
 

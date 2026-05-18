@@ -19,7 +19,7 @@ interface FormStatus {
 }
 
 interface RHFFormContainerProps<
-  TFieldValues extends FieldValues = FieldValues
+  TFieldValues extends FieldValues = FieldValues,
 > {
   form: UseFormReturn<TFieldValues>;
   onSubmit: SubmitHandler<TFieldValues>;
@@ -35,7 +35,7 @@ interface RHFFormContainerProps<
 }
 
 export function RHFormContainer<
-  TFieldValues extends FieldValues = FieldValues
+  TFieldValues extends FieldValues = FieldValues,
 >({
   form,
   onSubmit,
@@ -44,7 +44,7 @@ export function RHFormContainer<
     console.log("Validation errors:", errors);
   },
   children,
-  submitText = "Submit",
+  submitText ,
   loadingText = "Submitting...",
   className = "space-y-4",
   status,
@@ -68,21 +68,23 @@ export function RHFormContainer<
         >
           {children}
 
-          <Button
-            type="submit"
-            size={"lg"}
-            disabled={form.formState.isSubmitting || disabled}
-            className="w-full"
-          >
-            {form.formState.isSubmitting ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                {loadingText}
-              </>
-            ) : (
-              submitText
-            )}
-          </Button>
+          {submitText ? (
+            <Button
+              type="submit"
+              size={"lg"}
+              disabled={form.formState.isSubmitting || disabled}
+              className="w-full"
+            >
+              {form.formState.isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {loadingText}
+                </>
+              ) : (
+                submitText
+              )}
+            </Button>
+          ) : null}
         </form>
       </Form>
 
@@ -100,7 +102,7 @@ export function RHFormContainer<
                 touchedFields: form.formState.touchedFields,
               },
               null,
-              2
+              2,
             )}
           </pre>
         </div>

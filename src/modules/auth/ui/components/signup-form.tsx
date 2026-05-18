@@ -9,7 +9,7 @@ import { SignupFormData, signupSchema } from "../../schema";
 import { useState } from "react";
 import { RHFormContainer } from "@/modules/form/ui/components/rhf-form-container";
 import { RHFInput } from "@/modules/form/ui/components/rhf-input";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/modules/auth/lib/auth-client";
 
 const SignupForm = () => {
   const [submitStatus, setSubmitStatus] = useState<{
@@ -49,8 +49,6 @@ const SignupForm = () => {
       if (result.error) {
         throw new Error(result.error.message || "Something went wrong!");
       }
-
-      
     } catch (error) {
       console.error(error);
 
