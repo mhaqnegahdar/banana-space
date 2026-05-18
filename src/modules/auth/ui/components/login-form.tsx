@@ -11,12 +11,20 @@ import { LoginFormData, loginSchema } from "../../schema";
 import { useState } from "react";
 import { RHFormContainer } from "@/modules/form/ui/components/rhf-form-container";
 import { RHFInput } from "@/modules/form/ui/components/rhf-input";
+import { authClient } from "@/lib/auth-client";
+import GithubLogo from "@/components/layout/icons/github";
 
 const LoginForm = () => {
   const [submitStatus, setSubmitStatus] = useState<{
     type: "success" | "error" | "pending" | null;
     message: string;
   }>({ type: null, message: "" });
+
+  // Track social login loading states
+  const [socialLoading, setSocialLoading] = useState<{
+    github: boolean;
+    google: boolean;
+  }>({ github: false, google: false });
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -26,17 +34,21 @@ const LoginForm = () => {
     },
   });
 
+  const isAnyLoading =
+    form.formState.isSubmitting || socialLoading.github || socialLoading.google;
+
   const onSubmit = async (data: LoginFormData) => {
     try {
       setSubmitStatus({ type: "pending", message: "" });
 
-      const result = setTimeout(() => Math.floor(Math.random() * 2), 2000);
+      const result = await authClient.signIn.email({
+        email: data.email,
+        password: data.password,
+        callbackURL: "/",
+      });
 
-      if (!result) {
-        throw new Error(
-          // result.message ||
-          "Invalid email or password",
-        );
+      if (result.error) {
+        throw new Error(result.error.message || "Invalid email or password");
       }
     } catch (error) {
       console.error(error);
@@ -49,7 +61,41 @@ const LoginForm = () => {
     }
   };
 
-  const isAnyLoading = form.formState && false;
+  const handleSocialLogin = async (provider: "github" | "google") => {
+    try {
+      setSocialLoading((prev) => ({ ...prev, [provider]: true }));
+      setSubmitStatus({
+        type: "pending",
+        message: `Signing in with ${provider}...`,
+      });
+
+      const result = await authClient.signIn.social({
+        provider: provider,
+        callbackURL: "/", // Redirect URL after successful login
+      });
+
+      if (result.error) {
+        throw new Error(
+          result.error.message || `Failed to log in with ${provider}`,
+        );
+      }
+
+
+    } catch (error) {
+      console.error(`${provider} login error:`, error);
+
+      setSubmitStatus({
+        type: "error",
+        message:
+          error instanceof Error
+            ? error.message
+            : `Failed to sign in with ${provider}. Please try again.`,
+      });
+    } finally {
+      setSocialLoading((prev) => ({ ...prev, [provider]: false }));
+    }
+  };
+
   return (
     <div className="relative isolate flex flex-col items-center">
       <Logo size={"md"} />
@@ -81,9 +127,23 @@ const LoginForm = () => {
         />
       </RHFormContainer>
 
-      <Button className="mt-4 w-full gap-3" variant={"secondary"} size={"lg"}>
+      <Button
+        className="mt-4 w-full gap-3"
+        variant={"secondary"}
+        size={"lg"}
+        onClick={() => handleSocialLogin("google")}
+      >
         <GoogleLogo />
         Continue with Google
+      </Button>
+      <Button
+        className="mt-4 w-full gap-3"
+        variant={"secondary"}
+        size={"lg"}
+        onClick={() => handleSocialLogin("github")}
+      >
+        <GithubLogo />
+        Continue with Github
       </Button>
 
       <p className="mt-6 text-center text-sm">

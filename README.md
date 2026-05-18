@@ -39,4 +39,3 @@ I'd be easier just to take a look [here](https://bananaspace.vercel.app).
 - Neon database 
 - Authentication with BetterAuth
 
-
