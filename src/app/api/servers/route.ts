@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { requireAuth } from "@/lib/route-helpers";
 import { createServer } from "@/db/queries";
-import { createServerSchema } from "@/modules/setup/lib/schema";
+import { createServerSchema } from "@/modules/modals/lib/schema";
 
 // POST /api/servers
 // Body: { name: string; imageUrl: string }

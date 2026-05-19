@@ -12,7 +12,7 @@ import {
 import { RHFormContainer } from "@/modules/form/ui/components/rhf-form-container";
 import { RHFInput } from "@/modules/form/ui/components/rhf-input";
 import { useForm } from "react-hook-form";
-import { CreateServerFormData, createServerSchema } from "../../lib/schema";
+import { CreateServerFormData, createServerSchema } from "../lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
@@ -46,7 +46,7 @@ export function InitialModal() {
         body: JSON.stringify(data),
       });
 
-      console.log("=============>",response);
+      console.log("=============>", response);
 
       if (!response.ok) throw new Error("Failed to create server");
 

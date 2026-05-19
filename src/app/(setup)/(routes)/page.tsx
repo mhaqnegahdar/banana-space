@@ -1,10 +1,10 @@
-import { getLastJoinedServer } from "@/modules/setup/actions/get-last-joined-server";
+import { getLastJoinedServer } from "@/modules/modals/actions/get-last-joined-server";
 import { redirect } from "next/navigation";
-import {InitialModal} from "@/modules/setup/ui/components/initial-modal";
+import { InitialModal } from "@/modules/modals/components/setup-modal";
 import { requireAuth } from "@/lib/route-helpers";
 
 export default async function SetupPage() {
-  const {user, response} = await requireAuth();
+  const { user, response } = await requireAuth();
 
   if (response) {
     redirect(`/login`);

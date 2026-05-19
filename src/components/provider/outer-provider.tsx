@@ -1,5 +1,6 @@
 import React from "react";
 import { ThemeProvider } from "./theme-provider";
+import { TooltipProvider } from "../ui/tooltip";
 
 export default function OuterProviders({
   children,
@@ -8,7 +9,7 @@ export default function OuterProviders({
 }) {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      {children}
+      <TooltipProvider>{children}</TooltipProvider>
     </ThemeProvider>
   );
 }

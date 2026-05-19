@@ -33,7 +33,7 @@
   --sidebar-foreground: oklch(21.033% 0.00588 285.832);
   --sidebar-primary: oklch(84.799% 0.15621 82.442);
   --sidebar-primary-foreground: oklch(20.019% 0.00002 271.152);
-  --sidebar-accent: oklch(92.191% 0.0001 271.152);
+  --sidebar-accent: oklch(95.645% 0.02026 74.58);
   --sidebar-accent-foreground: oklch(21.033% 0.00588 285.832);
   --sidebar-border: oklch(92.191% 0.0001 271.152);
   --sidebar-ring: oklch(84.799% 0.15621 82.442);
@@ -123,7 +123,7 @@
     @apply bg-background text-foreground;
   }
 
-  button{
-    @apply cursor-pointer hover:opacity-80
+  button {
+    @apply cursor-pointer hover:opacity-80;
   }
 }

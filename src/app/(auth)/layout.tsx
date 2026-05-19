@@ -2,6 +2,7 @@ import React from "react";
 import { auth } from "@/modules/auth/lib/auth"; // path to your Better Auth server instance
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 
 export default async function layout({
   children,
@@ -68,6 +69,9 @@ export default async function layout({
         />
 
         {children}
+      </div>
+      <div className="fixed bottom-5 right-5">
+        <ThemeToggle />
       </div>
     </div>
   );
