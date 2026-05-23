@@ -18,11 +18,6 @@ export async function getUserByEmail(email: string) {
   });
 }
 
-export async function getUserByUsername(username: string) {
-  return db.query.user.findFirst({
-    where: eq(user.username, username),
-  });
-}
 
 // Fetch a user together with all their server memberships.
 // Used on initial app load to build the sidebar.

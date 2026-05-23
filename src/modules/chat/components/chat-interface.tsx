@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send, Paperclip, Mic, ImageIcon, Hash } from "lucide-react";
 import {
@@ -68,8 +67,6 @@ type ChatInterfaceProps = {
   channelName?: string;
 };
 
-const time = new Date();
-
 // ─── Welcome Screen ───────────────────────────────────────────────────────────
 
 function ChannelWelcome({ channelName }: { channelName: string }) {
@@ -99,23 +96,29 @@ export default function ChatInterface({
       type: "text",
       content: "Hello! How can I help you today?",
       sender: "assistant",
-      timestamp: new Date(time),
+      timestamp: new Date(
+        "Sat May 23 2026 16:14:11 GMT+0330 (Iran Standard Time)",
+      ),
     },
     {
       id: "2",
       type: "text",
       content: "I need help with my project. Can you take a look at this?",
       sender: "user",
-      timestamp: new Date(time),
+      timestamp: new Date(
+        "Sat May 23 2026 16:14:11 GMT+0330 (Iran Standard Time)",
+      ),
       user: currentUser,
     },
     {
       id: "3",
       type: "image",
-      imageUrl: "/placeholder.svg?height=300&width=400",
+      imageUrl: "https://api.dicebear.com/9.x/fun-emoji/svg?seed=Caleb",
       caption: "Here is the design mockup",
       sender: "user",
-      timestamp: new Date(time),
+      timestamp: new Date(
+        "Sat May 23 2026 16:14:11 GMT+0330 (Iran Standard Time)",
+      ),
       user: currentUser,
     },
     {
@@ -124,7 +127,9 @@ export default function ChatInterface({
       content:
         "That looks great! I can see you've made good progress on the UI design.",
       sender: "assistant",
-      timestamp: new Date(time),
+      timestamp: new Date(
+        "Sat May 23 2026 16:14:11 GMT+0330 (Iran Standard Time)",
+      ),
     },
     {
       id: "5",
@@ -133,7 +138,9 @@ export default function ChatInterface({
       fileUrl: "#",
       fileSize: "2.4 MB",
       sender: "user",
-      timestamp: new Date(time),
+      timestamp: new Date(
+        "Sat May 23 2026 16:14:11 GMT+0330 (Iran Standard Time)",
+      ),
       user: { ...currentUser, role: "moderator" },
     },
   ]);
@@ -181,7 +188,6 @@ export default function ChatInterface({
       setIsTyping(false);
     }, 1500);
   };
-
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };

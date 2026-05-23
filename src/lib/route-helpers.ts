@@ -15,5 +15,5 @@ export async function requireAuth() {
     };
   }
 
-  return { user: session.user, response: null };
+  return { profile: session.user, response: null };
 }

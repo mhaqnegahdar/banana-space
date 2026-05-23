@@ -15,11 +15,11 @@ export function UserBadge({ role, className }: UserBadgeProps) {
   const badgeConfig = {
     admin: {
       label: "Admin",
-      className: "bg-red-500/10 text-red-600 border-red-500/20 hover:bg-red-500/20",
+      className: "bg-[#008879]/10 text-[#008879] border-[#008879]/20 hover:bg-[#008879]/20",
     },
     moderator: {
       label: "Mod",
-      className: "bg-blue-500/10 text-blue-600 border-blue-500/20 hover:bg-blue-500/20",
+      className: "bg-[#939e00]/10 text-[#939e00] border-[#939e00]/20 hover:bg-[#939e00]/20",
     },
   }
 

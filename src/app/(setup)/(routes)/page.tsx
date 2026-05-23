@@ -4,13 +4,13 @@ import { InitialModal } from "@/modules/modals/components/setup-modal";
 import { requireAuth } from "@/lib/route-helpers";
 
 export default async function SetupPage() {
-  const { user, response } = await requireAuth();
+  const { profile, response } = await requireAuth();
 
   if (response) {
     redirect(`/login`);
   }
 
-  const server = await getLastJoinedServer(user.id);
+  const server = await getLastJoinedServer(profile.id);
 
   if (server) {
     redirect(`/servers/${server.id}`);

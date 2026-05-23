@@ -1,70 +1,61 @@
 "use client";
 
 import { useState } from "react";
-import { AppSidebar } from "@/components/app-sidebar";
-import { MobileSidebarNav } from "@/components/mobile-sidebar-nav";
+import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
 import { ArrowLeft } from "lucide-react";
-import ChatInterface from "@/modules/chat/components/chat-interface";
-import type { Channel } from "@/components/app-sidebar";
+import { MobileSidebarNav } from "./mobile-sidebar-nav";
+import type { Server, Channel, ChannelGroup } from "./app-sidebar";
 
-export default function Page() {
-  // "sidebars" = show sidebar panel fullscreen on mobile
-  // "chat"     = show chat fullscreen on mobile
+interface ServerLayoutClientProps {
+  servers: Server[];
+  activeServer: Server;
+  groups: ChannelGroup[];
+  children: React.ReactNode;
+}
+
+// Client — owns mobileView state and active channel name for the header.
+// Wraps the mobile nav + the main content area.
+export function ServerLayoutClient({
+  servers,
+  activeServer,
+  groups,
+  children,
+}: ServerLayoutClientProps) {
   const [mobileView, setMobileView] = useState<"sidebars" | "chat">("sidebars");
   const [activeChannel, setActiveChannel] = useState<Channel | null>(null);
 
   const channelName = activeChannel?.name ?? "general";
 
-  const handleChannelSelect = (channel: Channel) => {
+  function handleChannelSelect(channel: Channel) {
     setActiveChannel(channel);
     setMobileView("chat");
-  };
-
-  const handleBackToSidebars = () => {
-    setMobileView("sidebars");
-  };
+  }
 
   return (
-    <SidebarProvider
-      style={{ "--sidebar-width": "350px" } as React.CSSProperties}
-    >
-      {/* Desktop sidebar (hidden on mobile) */}
-      <AppSidebar />
-
-      {/* Mobile sidebar (hidden on desktop) */}
+    <>
       <MobileSidebarNav
+        servers={servers}
+        initialActiveServer={activeServer}
+        groups={groups}
         view={mobileView}
         onChannelSelect={handleChannelSelect}
       />
 
-      {/* Main content */}
       <SidebarInset
-        className={
-          // On mobile: hide chat when sidebars are shown; show chat when in chat view
-          mobileView === "sidebars" ? "hidden md:flex" : "flex"
-        }
+        className={mobileView === "sidebars" ? "hidden md:flex" : "flex"}
       >
         <header className="sticky top-0 z-10 flex shrink-0 items-center gap-2 border-b bg-background px-4 h-14">
-          {/* Desktop: shadcn SidebarTrigger */}
           <div className="hidden md:block">
             <SidebarTrigger className="-ml-1" />
           </div>
-
-          {/* Mobile: back arrow → returns to sidebars */}
           <button
             className="md:hidden p-1 rounded-md hover:bg-accent transition-colors"
-            onClick={handleBackToSidebars}
+            onClick={() => setMobileView("sidebars")}
             aria-label="Back to channels"
           >
             <ArrowLeft className="size-5" />
           </button>
-
           <Separator
             orientation="vertical"
             className="mr-2 data-vertical:h-4 data-vertical:self-auto"
@@ -74,8 +65,9 @@ export default function Page() {
           </span>
         </header>
 
-        <ChatInterface channelName={channelName} />
+        {/* Page content (channel page, conversation page, etc.) */}
+        {children}
       </SidebarInset>
-    </SidebarProvider>
+    </>
   );
 }

@@ -3,7 +3,7 @@
 // Hooks / Packages
 import { useAlertModalStore } from "@/store/alert-modal-store"; // Adjust path as needed
 // Component
-import Modal from "@/components/layout/modals/modal";
+import Modal from "@/modules/modals/components/modal";
 import { Button } from "@/components/ui/button";
 
 const AlertModal = () => {

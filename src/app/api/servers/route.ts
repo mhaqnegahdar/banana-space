@@ -6,7 +6,7 @@ import { createServerSchema } from "@/modules/modals/lib/schema";
 // POST /api/servers
 // Body: { name: string; imageUrl: string }
 export async function POST(req: Request) {
-  const { user, response } = await requireAuth();
+  const { profile, response } = await requireAuth();
   if (response) return response;
 
   const body = await req.json();
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     name: validated.data.name,
     imageUrl: validated.data.imageUrl,
     inviteCode: crypto.randomUUID(),
-    ownerId: user!.id,
+    ownerId: profile!.id,
   });
 
   return NextResponse.json(server, { status: 201 });

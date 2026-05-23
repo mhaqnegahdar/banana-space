@@ -4,7 +4,8 @@
 import { useState, useEffect } from "react";
 
 // Components
-import AlertModal from "@/components/layout/modals/alert-modal";
+import AlertModal from "@/modules/modals/components/alert-modal";
+import { CreateServerModal } from "@/modules/modals/components/create-server-modal";
 
 const ModalProvider = () => {
   const [mounted, setMounted] = useState(false);
@@ -21,6 +22,7 @@ const ModalProvider = () => {
   return (
     <>
       <AlertModal />
+      <CreateServerModal />
     </>
   );
 };
