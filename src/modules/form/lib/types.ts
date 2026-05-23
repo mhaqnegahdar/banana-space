@@ -22,7 +22,7 @@ export type InputType =
   | "image"; // Added image input type
 
 export interface BaseInputProps<
-  TFieldValues extends FieldValues = FieldValues
+  TFieldValues extends FieldValues = FieldValues,
 > {
   name: FieldPath<TFieldValues>;
   control: Control<TFieldValues>;
@@ -33,65 +33,81 @@ export interface BaseInputProps<
   className?: string;
 }
 
-export interface TextInputProps<TFieldValues extends FieldValues = FieldValues>
-  extends BaseInputProps<TFieldValues> {
+export interface TextInputProps<
+  TFieldValues extends FieldValues = FieldValues,
+> extends BaseInputProps<TFieldValues> {
   type: "text" | "email" | "password" | "number";
 }
 
-export interface TextareaProps<TFieldValues extends FieldValues = FieldValues>
-  extends BaseInputProps<TFieldValues> {
+export interface TextareaProps<
+  TFieldValues extends FieldValues = FieldValues,
+> extends BaseInputProps<TFieldValues> {
   type: "textarea";
   rows?: number;
 }
 
-export interface SelectProps<TFieldValues extends FieldValues = FieldValues>
-  extends BaseInputProps<TFieldValues> {
+export interface SelectProps<
+  TFieldValues extends FieldValues = FieldValues,
+> extends BaseInputProps<TFieldValues> {
   type: "select";
   options: SelectOption[];
 }
 
-export interface ComboboxProps<TFieldValues extends FieldValues = FieldValues>
-  extends BaseInputProps<TFieldValues> {
+export interface ComboboxProps<
+  TFieldValues extends FieldValues = FieldValues,
+> extends BaseInputProps<TFieldValues> {
   type: "combobox";
   options: SelectOption[];
 }
 
-export interface RadioProps<TFieldValues extends FieldValues = FieldValues>
-  extends BaseInputProps<TFieldValues> {
+export interface RadioProps<
+  TFieldValues extends FieldValues = FieldValues,
+> extends BaseInputProps<TFieldValues> {
   type: "radio";
   options: SelectOption[];
 }
 
 export interface MultiSelectProps<
-  TFieldValues extends FieldValues = FieldValues
+  TFieldValues extends FieldValues = FieldValues,
 > extends BaseInputProps<TFieldValues> {
   type: "multiselect";
   options?: SelectOption[];
 }
 
-export interface DateProps<TFieldValues extends FieldValues = FieldValues>
-  extends BaseInputProps<TFieldValues> {
+export interface DateProps<
+  TFieldValues extends FieldValues = FieldValues,
+> extends BaseInputProps<TFieldValues> {
   type: "date";
 }
 
-export interface CheckboxProps<TFieldValues extends FieldValues = FieldValues>
-  extends BaseInputProps<TFieldValues> {
+export interface CheckboxProps<
+  TFieldValues extends FieldValues = FieldValues,
+> extends BaseInputProps<TFieldValues> {
   type: "checkbox";
 }
 
 // MDX Editor props
-export interface MdxProps<TFieldValues extends FieldValues = FieldValues>
-  extends BaseInputProps<TFieldValues> {
+export interface MdxProps<
+  TFieldValues extends FieldValues = FieldValues,
+> extends BaseInputProps<TFieldValues> {
   type: "mdx";
   height?: number;
   theme?: "light" | "dark";
 }
 
 // Image Upload props
-export interface ImageProps<TFieldValues extends FieldValues = FieldValues>
-  extends BaseInputProps<TFieldValues> {
+export interface ImageProps<
+  TFieldValues extends FieldValues = FieldValues,
+> extends BaseInputProps<TFieldValues> {
   type: "image";
   folder?: string; // ImageKit folder path
+
+  previewClassName?: string;
+  previewContainerClassName?: string;
+  renderPreview?: (imageUrl: string) => React.ReactNode;
+
+  uploadContainerClassName?: string;
+  renderEmptyState?: () => React.ReactNode;
 }
 
 export type RHFInputProps<TFieldValues extends FieldValues = FieldValues> =

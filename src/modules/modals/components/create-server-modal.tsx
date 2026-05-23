@@ -4,7 +4,7 @@ import { useModalStore } from "@/store/modal-store";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { Loader2, Upload } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -20,6 +20,7 @@ import {
   createServerSchema,
   type CreateServerFormData,
 } from "@/modules/modals/lib/schema";
+import { toast } from "sonner";
 
 interface CreateServerModalProps {
   // When true the dialog has no close button and can't be dismissed.
@@ -58,8 +59,10 @@ export function CreateServerModal({
       form.reset();
       if (!forceOpen) close();
       router.push(`/servers/${newServer.id}`);
+      toast.success(`Server ${newServer.name} was created.`);
     } catch (error) {
       console.error(error);
+      toast.error("Error creating server.");
     } finally {
       setSubmitting(false);
     }
@@ -80,7 +83,7 @@ export function CreateServerModal({
       <DialogContent
         className="sm:max-w-sm"
         // Removes the default shadcn close (X) button when forced
-        {...(forceOpen && { hideCloseButton: true })}
+        showCloseButton={!forceOpen}
       >
         <DialogHeader>
           <DialogTitle>Customize your server</DialogTitle>
@@ -99,10 +102,18 @@ export function CreateServerModal({
           <RHFInput
             name="imageUrl"
             control={form.control}
-            label="Server Image"
-            disabled={isLoading}
             type="image"
-            folder="/profile/server"
+            uploadContainerClassName="h-32 w-32 rounded-full border-primary mx-auto"
+            previewClassName="h-32 w-32 rounded-full border-primary"
+            renderEmptyState={() => (
+              <div className="flex flex-col items-center gap-2 mx-auto">
+                <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center">
+                  <Upload />
+                </div>
+
+                {/* <p className="text-sm">Upload Avatar</p> */}
+              </div>
+            )}
           />
           <RHFInput
             name="name"

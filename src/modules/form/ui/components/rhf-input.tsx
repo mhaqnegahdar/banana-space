@@ -115,6 +115,13 @@ export function RHFInput<TFieldValues extends FieldValues = FieldValues>({
                       placeholder={placeholder}
                       disabled={disabled}
                       folder={props.folder || "/"}
+                      previewClassName={props.previewClassName}
+                      previewContainerClassName={
+                        props.previewContainerClassName
+                      }
+                      renderPreview={props.renderPreview}
+                      uploadContainerClassName={props.uploadContainerClassName}
+                      renderEmptyState={props.renderEmptyState}
                     />
                   );
                 case "select":

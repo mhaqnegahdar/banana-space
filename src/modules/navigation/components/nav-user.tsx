@@ -16,8 +16,10 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import {  LogOutIcon, Sun, Moon } from "lucide-react";
+import { authClient } from "@/modules/auth/lib/auth-client";
+import { LogOutIcon, Sun, Moon } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
 
 export function NavUser({
   user,
@@ -31,6 +33,18 @@ export function NavUser({
   const { setTheme, theme } = useTheme();
 
   const { isMobile } = useSidebar();
+
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/login");
+        },
+      },
+    });
+  };
 
   return (
     <SidebarMenu>
@@ -79,7 +93,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem variant="destructive">
+            <DropdownMenuItem onClick={handleSignOut} variant="destructive">
               <LogOutIcon />
               Log out
             </DropdownMenuItem>

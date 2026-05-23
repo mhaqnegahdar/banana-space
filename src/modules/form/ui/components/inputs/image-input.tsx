@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Upload, Image as ImageIcon, Loader2, Trash } from "lucide-react";
 
 import Image from "@/components/ui/image";
+import { cn } from "@/lib/utils";
 
 const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
 
@@ -57,6 +58,13 @@ interface ImageInputProps {
   placeholder?: string;
   disabled?: boolean;
   folder?: string;
+
+  previewClassName?: string;
+  previewContainerClassName?: string;
+  renderPreview?: (imageUrl: string) => React.ReactNode;
+
+  uploadContainerClassName?: string;
+  renderEmptyState?: () => React.ReactNode;
 }
 
 export function ImageInput({
@@ -64,6 +72,14 @@ export function ImageInput({
   placeholder = "Upload an image",
   disabled = false,
   folder = "/",
+
+  previewClassName,
+  previewContainerClassName,
+
+  uploadContainerClassName,
+  renderEmptyState,
+
+  renderPreview,
 }: ImageInputProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -182,15 +198,22 @@ export function ImageInput({
 
       {/* Preview */}
       {previewUrl ? (
-        <div className="relative group">
-          <div className="relative w-full h-auto rounded-lg overflow-hidden border border-dashed border-border">
-            <Image
-              path={previewUrl.replace(urlEndpoint!, "")}
-              w={500}
-              h={500}
-              alt="uploaded image"
-              className="mr-2 aspect-square w-full rounded-xl object-cover"
-            />
+        <div className={cn("relative group", previewContainerClassName)}>
+          <div className="relative overflow-hidden">
+            {renderPreview ? (
+              renderPreview(previewUrl)
+            ) : (
+              <Image
+                path={previewUrl.replace(urlEndpoint!, "")}
+                w={500}
+                h={500}
+                alt="uploaded image"
+                className={cn(
+                  "aspect-square w-full rounded-xl object-cover mx-auto",
+                  previewClassName,
+                )}
+              />
+            )}
 
             <div className="absolute top-2 right-2 z-10">
               <Button
@@ -207,17 +230,17 @@ export function ImageInput({
         </div>
       ) : (
         <div
-          className={`
-            w-full h-48 border-2 border-dashed border-border rounded-lg
-            flex flex-col items-center justify-center space-y-4
-            transition-colors duration-200 cursor-pointer
-            ${
-              disabled
-                ? "opacity-50 cursor-not-allowed"
-                : "hover:border-border hover:bg-muted/5"
-            }
-            ${isUploading ? "border-blue-300 bg-muted/5" : ""}
-          `}
+          className={cn(
+            `
+    w-full h-48 border-2 border-dashed border-border rounded-lg
+    flex flex-col items-center justify-center space-y-4
+    transition-colors duration-200 cursor-pointer
+    `,
+            disabled && "opacity-50 cursor-not-allowed",
+            !disabled && "hover:border-border hover:bg-muted/5",
+            isUploading && "border-blue-300 bg-muted/5",
+            uploadContainerClassName,
+          )}
           onClick={handleUploadClick}
         >
           {isUploading ? (
@@ -244,6 +267,8 @@ export function ImageInput({
                 Cancel Upload
               </Button>
             </>
+          ) : renderEmptyState ? (
+            renderEmptyState()
           ) : (
             <>
               <ImageIcon className="w-8 h-8 text-muted" />
@@ -284,7 +309,7 @@ export function ImageInput({
       )}
 
       {/* Debug URL */}
-      {field.value && (
+      {process.env.NODE_ENV == "development" && field.value && (
         <div className="text-2xs rounded p-2 break-all">
           <span className="font-medium">Current URL:</span> {field.value}
         </div>
